@@ -10,18 +10,16 @@ import javax.swing.JPanel;
 
 public class MainFrame extends JFrame {
     String[] studentArray = {
-            "Vili",
-            "Lili",
-            "Kimi",
-            "Didi",
-            "Mimi",
-            "Riri",
-            "Pipi",
-            "Sisi",
-            "Lala",
-            "Jani",
-            "Mari"
-
+            "Pali",
+            "Dani",
+            "Bali",
+            "Piri",
+            "Eri",
+            "Dóri",
+            "Imi",
+            "Árpi",
+            "Csabi",
+            "Jani"
     };
 
     final int MAX_STUDENT = studentArray.length;
@@ -33,14 +31,12 @@ public class MainFrame extends JFrame {
 
     JCheckBox[] studentsBox = new JCheckBox[MAX_STUDENT];
 
-    int[] studentIndex = new int[MAX_STUDENT];
     ArrayList<Integer> indexList = new ArrayList<>();
     ArrayList<Integer> selectedIndexes = new ArrayList<>();
 
     public MainFrame() {
         initComponent();
         initFrame();
-
     }
 
     private void initFrame() {
@@ -48,22 +44,20 @@ public class MainFrame extends JFrame {
         add(autoButton, BorderLayout.NORTH);
         add(panel, BorderLayout.CENTER);
         add(markButton, BorderLayout.SOUTH);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(500, 400);
-        setVisible(true);
 
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(400, 300);
+        setVisible(true);
     }
 
     private void initComponent() {
-        markButton.setEnabled(false); /// gomb lathatóságának beállítása
-        panel.setLayout(new GridLayout(0, 3));
-        /// studenstsBox
+        markButton.setEnabled(false);
+        panel.setLayout(new GridLayout(0, 4));
+        // studentsBox
         for (int i = 0; i < MAX_STUDENT; i++) {
             studentsBox[i] = new JCheckBox(
                     i + 1 + ") " +
-                            studentArray[i]
-
-            );
+                            studentArray[i]);
             panel.add(studentsBox[i]);
             studentsBox[i].addItemListener(e -> startCalc());
         }
@@ -71,38 +65,36 @@ public class MainFrame extends JFrame {
     }
 
     private void startAutoCalc() {
+        System.out.println("műkszik");
         selectedIndexes.clear();
         for (int i = 0; i < MAX_STUDENT; i++) {
             indexList.add(i);
         }
-    
         Random random = new Random();
-        
+
         for (int i = MAX_STUDENT; i > MAX_STUDENT - NUM_OF_STUDENT; i--) {
             int selected = random.nextInt(i);
             selectedIndexes.add(indexList.remove(selected));
             System.out.println("lefut");
-    
-            System.out.println(selectedIndexes);
-            // Additional logic if needed
         }
-    
-            for (int j = 0; j < MAX_STUDENT; j++) {
-                studentsBox[i].setSelected(false);
-                if(selectedIndexes.contains(i)){
-                    studentsBox[i].setSelected(true);
+        System.out.println(selectedIndexes);
+        // törlés és jelölés
+        for (int i = 0; i < MAX_STUDENT; i++) {
+            studentsBox[i].setSelected(false);
+            if (selectedIndexes.contains(i)) {
+                studentsBox[i].setSelected(true);
+            }
+        }
     }
 
     private void startCalc() {
-        int count = 0; /// jelölt hallgatók száma
         System.out.println("jelölve");
+        int count = 0;
         for (int i = 0; i < MAX_STUDENT; i++) {
             if (studentsBox[i].isSelected()) {
                 count++;
             }
         }
-
         markButton.setEnabled(count == 4);
     }
-
 }
